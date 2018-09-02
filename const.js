@@ -1,9 +1,12 @@
+import { cloud_name, cloud_api_key, cloud_api_secret, app_db_path } from "./keys";
+import { app_api_secret } from "./keys";
+
 export const POST_TYPES = ['Food', 'Lifestyle', 'Tech']
 export const cloud_key = {
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET,
+    cloud_name: cloud_name,
+    api_key: cloud_api_key,
+    api_secret: cloud_api_secret,
 };
 
-export const api_secret = process.env.API_SECRET;
-export const db_path = process.env.DB_PATH;
+export const api_secret = app_api_secret;
+export const db_path = app_db_path;

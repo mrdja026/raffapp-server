@@ -4,7 +4,7 @@
   "description": "Nodejs Backand - raf-app",
   "main": "index.js",
   "scripts": {
-    "start": "node node_modules/nodemon/bin/nodemon.js -- node_modules/babel-cli/bin/babel-node.js index",
+    "start": "node runServer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mrdjan",
@@ -28,3 +28,4 @@
     "nodemon": "1.17.5"
   }
 }
+
