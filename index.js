@@ -13,7 +13,7 @@ import comment from './routes/commentservice';
 import { cloud_key, api_secret, db_path } from './const';
 cloudinary.config(cloud_key);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const SECRET = api_secret;
 
 const App = express();
