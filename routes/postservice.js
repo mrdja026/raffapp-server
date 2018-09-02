@@ -31,7 +31,6 @@ PostRouter.post('/getById', checkAuth, responseHeader, (req, res, next) => {
 
 PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
     let { title, textContent, userId, category, mediaContent } = req.body;
-    console.log('New post to add ', title, ' ', textContent, ' ', userId, ' ', category, ' ', mediaContent);
     Post.create({ title: title, textContent: textContent, userId: userId, category: category }, (error, post) => {
         if (error) {
             console.log('Errorr', error);
@@ -51,7 +50,6 @@ PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
                         if (error) {
                             return next(error);
                         } else {
-                            console.log('ja sam snimio sa mediom???', post);
                             return res.send({ ok: true, post: post });
                         }
                     })

@@ -20,13 +20,13 @@ CommentRouter.post('/addNew', checkAuth, responseHeader, (req, res, next) => {
 
 CommentRouter.post('/getAll', checkAuth, responseHeader, (req, res, next) => {
     let { topicId } = req.body;
-    Comment.find({ topicId: topicId }, null, { sort: SORT_CONDITION }, (error, comments) => {
-        if (error) {
+    Comment.find({ topicId: topicId }, null, { sort: SORT_CONDITION }).populate('userId').exec((error, result) => {
+        if(error){
             return next(error);
-        } else {
-            return res.send({ ok: true, comments: comments });
+        }else{
+            return res.send({ok:true, comments:result});
         }
-    });
+    })
 });
 
 export default CommentRouter;
