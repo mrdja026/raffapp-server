@@ -10,7 +10,7 @@ import subscription from './routes/subscriptionservice';
 import cloudinary from 'cloudinary';
 import assets from './routes/assets';
 import comment from './routes/commentservice';
-import { cloud_key, api_secret } from './const';
+import { cloud_key, api_secret, db_path } from './const';
 cloudinary.config(cloud_key);
 
 const PORT = 3000;
@@ -18,7 +18,7 @@ const SECRET = api_secret;
 
 const App = express();
 App.use(bodyParser.json());
-mongoose.connect('mongodb://localhost/raf-app');
+mongoose.connect(db_path);
 var db = mongoose.connection;
 db.on('error', (error) => { console.error('Server to db connection failed', error) });
 
