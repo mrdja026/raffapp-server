@@ -5,6 +5,7 @@ npm-debug.log
 yarn-error.log
 
 #SECRETS
+keys.js
 keys-dev.js
 secrets.js
 servname.txt
