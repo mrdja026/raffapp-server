@@ -6,3 +6,4 @@ export const cloud_key = {
 };
 
 export const api_secret = process.env.API_SECRET;
+export const db_path = process.env.DB_PATH;
