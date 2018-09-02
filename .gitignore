@@ -7,6 +7,5 @@ yarn-error.log
 #SECRETS
 keys-dev.js
 secrets.js
-keys.js
 servname.txt
 
