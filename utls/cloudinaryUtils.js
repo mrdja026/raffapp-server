@@ -10,14 +10,14 @@ export const uploadAsset = (data, type, callback) => {
     });
 }
 export const generalUpload = (data) => {
-    console.log('General uplaod' , data);
+    console.log('General uplaod', data);
     let promise = new Promise((resolve, reject) => {
         cloudinary.v2.uploader.upload(data, (error, result) => {
             console.log('Whataaaa', error, result);
             if (error) {
-                reject(error);
+                return reject(error);
             } else {
-                resolve(result);
+                return resolve(result);
             }
         });
     })

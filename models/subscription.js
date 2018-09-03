@@ -3,7 +3,7 @@ import { POST_TYPES } from '../const';
 
 
 const SubscriptionScheme = new mongoose.Schema({
-    postType: {
+    category: {
         enum: POST_TYPES,
     },
     userId: {

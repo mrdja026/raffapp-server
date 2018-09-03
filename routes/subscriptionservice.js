@@ -1,16 +1,31 @@
 import express from 'express';
 import Subscription from '../models/subscription';
-import { checkAuth, responseHeader, HTTP_UNAUTHORIZED, HTTP_RA_EXCEPTION } from '../utls/apiUtils';
+import { checkAuth, responseHeader} from '../utls/apiUtils';
 
 const SubRouter = express.Router();
 
 
-SubRouter.post('/registerSubscription', checkAuth, responseHeader, (req, res, next) => {
-
+SubRouter.post('/registerTopicSubscription', checkAuth, responseHeader, (req, res, next) => {
+    let { userId, category } = req.body;
+    Subscription.create({ userId: userId, category: category }, (error, result) => {
+        if (error) {
+            return next(error);
+        } else {
+            console.log(result);
+            return res.send({ ok: true });
+        }
+    })
 });
 
-SubRouter.post('/cancelSubscription', checkAuth, responseHeader, (req, res, next) => {
-
+SubRouter.post('/cancelTopicSubscription', checkAuth, responseHeader, (req, res, next) => {
+    let { userId, category } = req.body;
+    Subscription.remove({ userId: userId, category: category }, (error, result) => {
+        if (error) {
+            return next(error);
+        } else {
+            return res.send({ ok: true });
+        }
+    })
 });
 
 export default SubRouter;

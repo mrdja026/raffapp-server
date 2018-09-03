@@ -44,11 +44,11 @@ const PostSchema = new mongoose.Schema({
 
 });
 
-PostSchema.pre('save', function (next) {
-    let post = this;
-    post.createdOn = moment().valueOf();
-    next();
-})
+// PostSchema.pre('save', function (next) {
+//     let post = this;
+//     post.createdOn = moment().valueOf();
+//     next();
+// })
 
 const Post = mongoose.model('Post', PostSchema);
 export default Post;

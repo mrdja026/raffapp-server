@@ -2,8 +2,7 @@ import express from 'express';
 import { checkAuth, responseHeader, HTTP_RA_EXCEPTION } from '../utls/apiUtils';
 import Post from '../models/post';
 import { generalUpload } from '../utls/cloudinaryUtils';
-import Comment from '../models/comment';
-
+import moment from 'moment';
 const SORT_CONDITION = '-createdOn'
 
 const PostRouter = express.Router();
@@ -30,32 +29,37 @@ PostRouter.post('/getById', checkAuth, responseHeader, (req, res, next) => {
 });
 
 PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
+    console.log('Save post lol?');
     let { title, textContent, userId, category, mediaContent } = req.body;
-    Post.create({ title: title, textContent: textContent, userId: userId, category: category }, (error, post) => {
+    Post.create({ createdOn: moment().valueOf(), title: title, textContent: textContent, userId: userId, category: category }, (error, post) => {
         if (error) {
             console.log('Errorr', error);
             return next(error);
         } else {
             //TODO: ima neki bug kada se png uploaduje ? maybe
             if (mediaContent) {
+                console.log('media contan', mediaContent);
                 let { b64, type } = mediaContent;
                 let base64String = 'data:' + type + ';base64,' + b64;
-                generalUpload(base64String).then(result => {
-                    console.log('Post media result', result);
-                    let { url } = result;
-                    const KEY_SPLIT = 'upload/'
-                    let urlPaths = url.split(KEY_SPLIT);
-                    let thumb = urlPaths[0] + KEY_SPLIT + '/w_60,h_60/' + urlPaths[1];
-                    Post.findOneAndUpdate({ _id: post._id }, { mediaContent: result.url, mediaContentThumb: thumb }, { new: true, owerWrite: false }, (error, post) => {
-                        if (error) {
-                            return next(error);
-                        } else {
-                            return res.send({ ok: true, post: post });
-                        }
+                try {
+                    generalUpload(base64String).then(result => {
+                        console.log('Post media result', result);
+                        let { url } = result;
+                        const KEY_SPLIT = 'upload/'
+                        let urlPaths = url.split(KEY_SPLIT);
+                        let thumb = urlPaths[0] + KEY_SPLIT + '/w_60,h_60/' + urlPaths[1];
+                        Post.findOneAndUpdate({ _id: post._id }, { mediaContent: result.url, mediaContentThumb: thumb }, { new: true, owerWrite: false }, (error, post) => {
+                            if (error) {
+                                return next(error);
+                            } else {
+                                return res.send({ ok: true, post: post });
+                            }
+                        })
                     })
-                }).catch(error => {
-                    console.log('Failed to media content to post', error);
-                })
+                } catch (error) {
+                    console.log('Error while uploading what?');
+                    return next(error);
+                }
             } else {
                 return res.send({ ok: true, post: post });
             }

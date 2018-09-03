@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 const SECRET = api_secret;
 
 const App = express();
-App.use(bodyParser.json());
+App.use(bodyParser.json({limit: '50mb'}));
 mongoose.connect(db_path);
 var db = mongoose.connection;
 db.on('error', (error) => { console.error('Server to db connection failed', error) });
