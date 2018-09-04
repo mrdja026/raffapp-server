@@ -4,6 +4,8 @@ import { POST_TYPES } from '../const';
 
 const SubscriptionScheme = new mongoose.Schema({
     category: {
+        type: String,
+        required: true,
         enum: POST_TYPES,
     },
     userId: {
@@ -12,5 +14,5 @@ const SubscriptionScheme = new mongoose.Schema({
     }
 });
 
-export const Subscription = mongoose.model('Sub', SubscriptionScheme);
-
+const Subscription = mongoose.model('Subscription', SubscriptionScheme);
+export default Subscription;
