@@ -15,17 +15,28 @@ class FirebaseHandler {
             });
             console.log('Firebase initialited successfully');
         } catch (error) {
-            console.log('Firebase  init error',error);
+            console.log('Firebase  init error', error);
         }
     }
 
     sendNotification = (message) => {
-        console.log('Notif to send', message);
-        admin.messaging().send(message).then((result)=>{
+        //TODO: Populate data for all apropriate fields,
+        let mrdjan = {
+            notification: {
+                title: message.data.title,
+                body: 'TEST'
+            },
+            data: {
+                score: '850',
+                time: '2:45'
+            },
+            token: message.token,
+        };
+        admin.messaging().send(mrdjan).then((result) => {
             console.log('result', result);
         }).catch((error) => {
             console.log('Error sending message:', error);
-          });
+        });
     }
 }
 

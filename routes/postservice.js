@@ -50,7 +50,7 @@ PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
                             if (error) {
                                 return next(error);
                             } else {
-                                AppPostEventManager.postCreatedEvent(category,userId);
+                                AppPostEventManager.postCreatedEvent(category,userId,title);
                                 return res.send({ ok: true, post: post });
                             }
                         })

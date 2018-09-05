@@ -28,13 +28,22 @@ class PostEventManager {
         });
     }
 
-    postCreatedEvent = async (category, userId) => {
+    postCreatedEvent = async (category, userId, title) => {
         let usersSubed = await Subscription.find({ category: category }).populate('userId').exec();
         usersSubed.forEach(userSubed => {
             let { userId } = userSubed;
+            //TODO: uncomment this when testing is done.
+            // if(userId == userId)
+            //     continue;
             let { deviceToken } = userId;
-
-            AppFirebaseHandler.sendNotification({ data: {sta:'Sta', ne:'neee',time: new Date().toISOString()},  token: deviceToken });
+            let message = {
+                data: {
+                    title: 'New post in ' + category + ' feed: ' + title,
+                    time: new Date().toISOString(),
+                },
+                token: deviceToken
+            }
+            AppFirebaseHandler.sendNotification(message);
         })
     }
 
