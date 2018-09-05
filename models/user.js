@@ -27,10 +27,14 @@ const UserSchema = new mongoose.Schema({
     },
     avatarUri: {
         type: String,
+    },
+    deviceToken: {
+        type: String,
     }
 });
 
 UserSchema.statics.authenticate = (username, password, callback) => {
+    //TODO:Change this error handling to something with more amounts of sanity. async await;
     User.findOne({ username: username })
         .exec(function (err, user) {
             if (err) {

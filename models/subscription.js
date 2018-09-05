@@ -9,7 +9,7 @@ const SubscriptionScheme = new mongoose.Schema({
         enum: POST_TYPES,
     },
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: "User",
         required: true,
     }
 });

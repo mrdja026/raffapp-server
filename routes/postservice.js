@@ -3,6 +3,7 @@ import { checkAuth, responseHeader, HTTP_RA_EXCEPTION } from '../utls/apiUtils';
 import Post from '../models/post';
 import { generalUpload } from '../utls/cloudinaryUtils';
 import moment from 'moment';
+import { AppPostEventManager } from '../events/PostEventManager';
 const SORT_CONDITION = '-createdOn'
 
 const PostRouter = express.Router();
@@ -29,7 +30,6 @@ PostRouter.post('/getById', checkAuth, responseHeader, (req, res, next) => {
 });
 
 PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
-    console.log('Save post lol?');
     let { title, textContent, userId, category, mediaContent } = req.body;
     Post.create({ createdOn: moment().valueOf(), title: title, textContent: textContent, userId: userId, category: category }, (error, post) => {
         if (error) {
@@ -38,12 +38,10 @@ PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
         } else {
             //TODO: ima neki bug kada se png uploaduje ? maybe
             if (mediaContent) {
-                console.log('media contan', mediaContent);
                 let { b64, type } = mediaContent;
                 let base64String = 'data:' + type + ';base64,' + b64;
                 try {
                     generalUpload(base64String).then(result => {
-                        console.log('Post media result', result);
                         let { url } = result;
                         const KEY_SPLIT = 'upload/'
                         let urlPaths = url.split(KEY_SPLIT);
@@ -52,6 +50,7 @@ PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
                             if (error) {
                                 return next(error);
                             } else {
+                                AppPostEventManager.postCreatedEvent(category,userId);
                                 return res.send({ ok: true, post: post });
                             }
                         })
@@ -61,6 +60,7 @@ PostRouter.post('/savePost', checkAuth, responseHeader, (req, res, next) => {
                     return next(error);
                 }
             } else {
+                AppPostEventManager.postCreatedEvent(category,userId);
                 return res.send({ ok: true, post: post });
             }
         }

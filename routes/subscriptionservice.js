@@ -8,7 +8,6 @@ const SubRouter = express.Router();
 SubRouter.post('/registerTopicSubscription', checkAuth, responseHeader, (req, res, next) => {
     let { category } = req.body;
     let { userId } = req.session;
-    console.log("Category", category, ' Userid', userId);
     Subscription.create({ userId: userId, category: category }, (error, result) => {
         if (error) {
             return next(error);
@@ -20,7 +19,8 @@ SubRouter.post('/registerTopicSubscription', checkAuth, responseHeader, (req, re
 });
 
 SubRouter.post('/cancelTopicSubscription', checkAuth, responseHeader, (req, res, next) => {
-    let { userId, category } = req.body;
+    let { category } = req.body;
+    let {userId} = req.session;
     Subscription.remove({ userId: userId, category: category }, (error, result) => {
         if (error) {
             return next(error);

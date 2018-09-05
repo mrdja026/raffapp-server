@@ -10,3 +10,9 @@ export const cloud_key = {
 
 export const api_secret = app_api_secret;
 export const db_path = app_db_path;
+
+export const asyncMiddleware = (fn) =>
+    (req, res, next) => {
+        Promise.resolve(fn(req, res, next))
+            .catch(next);
+    };
