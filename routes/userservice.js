@@ -20,7 +20,6 @@ UserService.post('/getUserData', checkAuth, responseHeader, (req, res, next) => 
     let _res = res;
     User.findById(id)
         .exec((error, user) => {
-            console.log('userdetails', error, user);
             if (error) {
                 let err = new Error('User not found');
                 err.status = HTTP_RA_EXCEPTION;
